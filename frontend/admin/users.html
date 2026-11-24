@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Users · Admin · CivicEvents+</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../assets/js/theme.js"></script>
+  <link rel="stylesheet" href="../assets/css/styles.css">
+</head>
+<body class="min-h-screen antialiased">
+  <header id="site-header"></header>
+  <main id="main" class="mx-auto grid max-w-7xl gap-6 px-4 py-8 sm:px-6 lg:grid-cols-[220px_1fr]">
+    <aside id="admin-sidebar"></aside>
+    <div class="min-w-0">
+      <p class="text-sm font-medium text-sage-700">Admin</p>
+      <h1 class="mt-1 font-display text-3xl font-bold tracking-tight text-stone-900">Users</h1>
+      <p class="mt-1 text-sm text-stone-500">Enable or disable accounts. Roles can't be changed here.</p>
+      <div class="mt-6 flex flex-col gap-3 sm:flex-row">
+        <label for="u-q" class="sr-only">Search users</label>
+        <input id="u-q" type="search" placeholder="Search by name or email" class="w-full rounded-xl border border-stone-200 px-3.5 py-2.5 text-sm focus:border-sage-400 focus:outline-none focus:ring-2 focus:ring-sage-100 bg-white sm:max-w-xs">
+        <label for="u-status" class="sr-only">Status</label>
+        <select id="u-status" class="rounded-xl border border-stone-200 bg-white px-3 py-2.5 text-sm focus:border-sage-400 focus:outline-none focus:ring-2 focus:ring-sage-100">
+          <option value="">All statuses</option><option value="active">Active</option><option value="disabled">Disabled</option>
+        </select>
+      </div>
+      <div class="mt-4 overflow-hidden rounded-2xl border border-stone-200 bg-white">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm">
+            <caption class="sr-only">All users</caption>
+            <thead class="border-b border-stone-100 bg-stone-50/70 text-xs uppercase tracking-wide text-stone-500">
+              <tr><th scope="col" class="px-4 py-3 font-medium">Name</th><th scope="col" class="hidden px-4 py-3 font-medium md:table-cell">Role</th><th scope="col" class="hidden px-4 py-3 font-medium sm:table-cell">Joined</th><th scope="col" class="px-4 py-3 font-medium">Status</th><th scope="col" class="px-4 py-3 text-right font-medium"><span class="sr-only">Actions</span></th></tr>
+            </thead>
+            <tbody id="u-body" class="divide-y divide-stone-100"></tbody>
+          </table>
+        </div>
+      </div>
+      <nav id="pager" class="mt-6 flex items-center justify-center gap-1" aria-label="Pagination"></nav>
+    </div>
+  </main>
+  <footer id="site-footer"></footer>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="../assets/js/config.js"></script>
+  <script src="../assets/js/ui.js"></script>
+  <script src="../assets/js/auth.js"></script>
+  <script src="../assets/js/api.js"></script>
+  <script src="../assets/js/shared.js"></script>
+  <script src="../assets/js/layout.js"></script>
+  <script src="../assets/js/pages/users.js"></script>
+</body>
+</html>

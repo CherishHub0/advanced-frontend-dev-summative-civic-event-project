@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Promos · CivicEvents+</title>
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/js/theme.js"></script>
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body class="min-h-screen antialiased">
+  <header id="site-header"></header>
+  <main id="main" class="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10">
+    <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+      <div>
+        <p class="text-sm font-medium text-sage-700">Watch</p>
+        <h1 class="mt-1 font-display text-3xl font-bold tracking-tight text-stone-900">Promos</h1>
+        <p class="mt-1 text-sm text-stone-500">Short videos about what's coming up, with captions.</p>
+      </div>
+      <!-- ROLE GUARD (element-level): removed for non-admins -->
+      <a data-role="admin" href="admin/promo-form.html" class="inline-flex items-center justify-center gap-2 rounded-xl bg-sage-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-sage-700"><span aria-hidden="true">+</span> New promo</a>
+    </div>
+    <div id="promo-grid" class="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3" aria-busy="true" aria-live="polite"></div>
+    <nav id="pager" class="mt-8 flex items-center justify-center gap-1" aria-label="Pagination"></nav>
+  </main>
+  <footer id="site-footer"></footer>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="assets/js/config.js"></script>
+  <script src="assets/js/ui.js"></script>
+  <script src="assets/js/auth.js"></script>
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/shared.js"></script>
+  <script src="assets/js/layout.js"></script>
+  <script src="assets/js/pages/promos.js"></script>
+</body>
+</html>
