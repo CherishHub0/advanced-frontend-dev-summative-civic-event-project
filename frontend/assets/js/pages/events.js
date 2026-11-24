@@ -6,6 +6,7 @@ if (Auth.requireLogin()) {
     Layout.init({ active: 'events' });
 
     const PER_PAGE = 9;
+    const admin = Auth.isAdmin();
     let all = [];
     let myRegs = {};          // event_id -> registration status
     let page = 1;
@@ -19,8 +20,8 @@ if (Auth.requireLogin()) {
         ? '<span class="absolute left-3 top-3 rounded-full bg-white/95 px-2.5 py-1 text-xs font-semibold text-sage-700 shadow-sm">✓ Registered</span>'
         : Shared.isPast(ev) ? '<span class="absolute left-3 top-3 rounded-full bg-white/95 px-2.5 py-1 text-xs font-medium text-stone-600 shadow-sm">Past event</span>' : '';
       return `
-      <article class="fade-in group overflow-hidden rounded-2xl border border-stone-200 bg-white transition hover:-translate-y-0.5 hover:shadow-lg hover:shadow-stone-900/5">
-        <a href="event-detail.html?id=${encodeURIComponent(ev.id)}" class="block focus:outline-none" aria-label="${UI.esc(ev.title)}">
+      <article class="fade-in group flex flex-col overflow-hidden rounded-2xl border border-stone-200 bg-white transition hover:-translate-y-0.5 hover:shadow-lg hover:shadow-stone-900/5">
+        <a href="event-detail.html?id=${encodeURIComponent(ev.id)}" class="block flex-1 focus:outline-none" aria-label="${UI.esc(ev.title)}">
           <div class="relative">${Shared.eventCover(ev)}${badge}</div>
           <div class="flex gap-4 p-4">
             ${Shared.dateBlock(ev.starts_at)}
@@ -28,10 +29,28 @@ if (Auth.requireLogin()) {
               <h2 class="font-display text-base font-semibold leading-snug text-stone-900 group-hover:text-sage-700">${UI.esc(ev.title)}</h2>
               <p class="mt-1 truncate text-sm text-stone-500">${UI.esc(ev.location || 'Location to be confirmed')}</p>
               <p class="mt-0.5 text-xs text-stone-400">${Shared.timeRange(ev.starts_at, ev.ends_at)}</p>
+              ${ev.description ? `<p class="mt-2 line-clamp-2 text-sm text-stone-600">${UI.esc(ev.description)}</p>` : ''}
             </div>
           </div>
         </a>
+        <div class="flex items-center gap-2 border-t border-stone-100 px-4 py-3">
+          <a href="event-detail.html?id=${encodeURIComponent(ev.id)}" class="rounded-lg px-3 py-1.5 text-sm font-medium text-stone-700 hover:bg-stone-100">View</a>
+          ${actionBtn(ev, status)}
+          ${admin ? `<!-- ROLE GUARD: admin-only card actions (only rendered when Auth.isAdmin()) -->
+          <span class="ml-auto flex gap-1">
+            <a href="admin/event-form.html?id=${encodeURIComponent(ev.id)}" class="rounded-lg px-3 py-1.5 text-sm font-medium text-stone-600 hover:bg-stone-100" aria-label="Edit ${UI.esc(ev.title)}">Edit</a>
+            <button type="button" class="js-del rounded-lg px-3 py-1.5 text-sm font-medium text-red-700 hover:bg-red-50" data-id="${UI.esc(ev.id)}" aria-label="Delete ${UI.esc(ev.title)}">Delete</button>
+          </span>` : ''}
+        </div>
       </article>`;
+    }
+
+    // Register button on the card (users). Registered/cancelled/past events show a status instead.
+    function actionBtn(ev, status) {
+      if (status === 'registered') return '<span class="px-2 text-sm font-medium text-sage-700">✓ Registered</span>';
+      if (status === 'cancelled') return '<span class="px-2 text-sm text-stone-400">Cancelled</span>';
+      if (Shared.isPast(ev)) return '';
+      return `<button type="button" class="js-reg rounded-lg bg-sage-600 px-3 py-1.5 text-sm font-semibold text-white hover:bg-sage-700" data-id="${UI.esc(ev.id)}" aria-label="Register for ${UI.esc(ev.title)}">Register</button>`;
     }
 
     function filtered() {
@@ -123,6 +142,36 @@ if (Auth.requireLogin()) {
       document.getElementById('main').scrollIntoView({ behavior: 'smooth' });
     });
     $(document).on('click', '#events-grid .js-retry', load);
+
+    // Register from the card: optimistic update, rolled back if the server refuses.
+    $('#events-grid').on('click', '.js-reg', async function () {
+      const id = $(this).data('id');
+      myRegs[id] = 'registered'; render();
+      try {
+        await Api.post('/event-registrations/register', { event_id: id });
+        UI.toast('You\'re registered. See you there!', 'success');
+      } catch (err) {
+        delete myRegs[id]; render();
+        UI.toast(err.status === 409 ? 'You\'re already registered (or cancelled earlier) for this event.' : err.message, 'error');
+      }
+    });
+
+    // ROLE GUARD: delete is admin-only (button only rendered for admins; backend checks too).
+    $('#events-grid').on('click', '.js-del', async function () {
+      const ev = all.find((e) => e.id === $(this).data('id'));
+      if (!(await UI.confirm({ title: 'Delete this event?', message: `"${ev.title}" will be removed for everyone.`, confirmText: 'Delete event', danger: true }))) return;
+      const before = all;
+      all = all.filter((e) => e.id !== ev.id); render();
+      try {
+        await Api.del('/events/' + ev.id);
+        Shared.cache.drop('events');
+        UI.toast('Event deleted.', 'success');
+      } catch (err) {
+        all = before; render();
+        const blocked = /foreign key|registrations/i.test(err.message || '');
+        UI.toast(blocked ? 'This event has registrations, so it can\'t be deleted. You can edit it instead.' : err.message, 'error');
+      }
+    });
 
     load();
   });

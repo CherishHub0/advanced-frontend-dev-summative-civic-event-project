@@ -86,7 +86,8 @@ if (Auth.requireLogin()) {
               <div class="rounded-2xl bg-stone-100/70 p-4"><dt class="text-xs font-medium uppercase tracking-wide text-stone-500">When</dt>
                 <dd class="mt-1 text-sm font-medium text-stone-800">${d.toLocaleDateString(undefined, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}<br><span class="font-normal text-stone-600">${Shared.timeRange(ev.starts_at, ev.ends_at)}</span></dd></div>
               <div class="rounded-2xl bg-stone-100/70 p-4"><dt class="text-xs font-medium uppercase tracking-wide text-stone-500">Where</dt>
-                <dd class="mt-1 text-sm font-medium text-stone-800">${UI.esc(ev.location || 'To be confirmed')}</dd></div>
+                <dd class="mt-1 text-sm font-medium text-stone-800">${UI.esc(ev.location || 'To be confirmed')}</dd>
+                ${ev.location ? `<a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(ev.location)}" target="_blank" rel="noopener" class="mt-1 inline-block text-sm font-medium text-sage-700 hover:text-sage-800">Open in Google Maps ↗<span class="sr-only"> (opens in a new tab)</span></a>` : ''}</div>
             </dl>
             <h2 class="mt-8 font-display text-lg font-semibold text-stone-900">About this event</h2>
             <p class="mt-2 whitespace-pre-line leading-relaxed text-stone-600">${UI.esc(ev.description || 'No description yet.')}</p>

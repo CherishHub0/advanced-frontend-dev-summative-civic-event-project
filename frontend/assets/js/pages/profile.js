@@ -14,6 +14,9 @@ if (Auth.requireLogin()) {
       $('#full_name').val(u.full_name);
       $('#email').val(u.email);
       $('#role').text(u.role);
+      $('#status').html(u.is_active === false
+        ? '<span class="inline-flex items-center gap-1.5 text-red-700"><span class="h-1.5 w-1.5 rounded-full bg-red-500"></span>Disabled</span>'
+        : '<span class="inline-flex items-center gap-1.5 text-sage-700"><span class="h-1.5 w-1.5 rounded-full bg-sage-500"></span>Active</span>');
       $('#p-name').text(u.full_name);
       $('#p-meta').text('Member since ' + UI.fmtDate(u.created_at));
       $('#avatar').text((u.full_name || '?').split(' ').map((p) => p[0]).slice(0, 2).join('').toUpperCase());

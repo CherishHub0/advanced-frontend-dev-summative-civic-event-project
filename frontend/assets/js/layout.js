@@ -146,7 +146,10 @@ const Layout = (() => {
     return `
     <div class="mt-16 border-t border-stone-200">
       <div class="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-8 text-sm text-stone-500 sm:flex-row sm:items-center sm:justify-between sm:px-6">
-        <p><span class="font-display font-semibold text-stone-700">CivicEvents<span class="text-sage-600">+</span></span> · Bringing the community together.</p>
+        <div>
+          <p><span class="font-display font-semibold text-stone-700">CivicEvents<span class="text-sage-600">+</span></span> · Bringing the community together.</p>
+          <p class="mt-1">Need help? Email <a href="mailto:help@civicevents.example" class="font-medium text-sage-700 hover:text-sage-800">help@civicevents.example</a></p>
+        </div>
         <nav aria-label="Footer" class="flex gap-5">
           <a href="${R()}events.html" class="hover:text-stone-800">Events</a>
           <a href="${R()}announcements.html" class="hover:text-stone-800">Announcements</a>

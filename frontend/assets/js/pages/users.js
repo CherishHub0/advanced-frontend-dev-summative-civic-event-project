@@ -21,7 +21,8 @@ if (Auth.requireAdmin()) {
         <td class="hidden px-4 py-3 text-stone-500 sm:table-cell">${UI.fmtDate(u.created_at)}</td>
         <td class="px-4 py-3"><span class="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium ${active ? 'bg-sage-50 text-sage-700' : 'bg-red-50 text-red-700'}"><span class="h-1.5 w-1.5 rounded-full ${active ? 'bg-sage-500' : 'bg-red-500'}"></span>${active ? 'Active' : 'Disabled'}</span></td>
         <td class="px-4 py-3 text-right">
-          ${self ? '<span class="text-xs text-stone-400">—</span>' : `<button type="button" class="js-toggle rounded-lg border border-stone-200 px-3 py-1.5 text-xs font-medium ${active ? 'text-red-700 hover:bg-red-50' : 'text-sage-700 hover:bg-sage-50'}" data-id="${UI.esc(u.id)}">${active ? 'Disable' : 'Enable'}</button>`}
+          <button type="button" class="js-view mr-1 rounded-lg px-3 py-1.5 text-xs font-medium text-stone-600 hover:bg-stone-100" data-id="${UI.esc(u.id)}" aria-label="View ${UI.esc(u.full_name)}">View</button>
+          ${self ? '' : `<button type="button" class="js-toggle rounded-lg border border-stone-200 px-3 py-1.5 text-xs font-medium ${active ? 'text-red-700 hover:bg-red-50' : 'text-sage-700 hover:bg-sage-50'}" data-id="${UI.esc(u.id)}">${active ? 'Disable' : 'Enable'}</button>`}
         </td></tr>`;
     }
 
@@ -62,6 +63,36 @@ if (Auth.requireAdmin()) {
         await Api.patch(`/users/${u.id}/${disabling ? 'disable' : 'enable'}`);
         UI.toast(`${u.full_name} ${disabling ? 'disabled' : 'enabled'}.`, 'success');
       } catch (err) { u.is_active = disabling; render(); UI.toast(err.message, 'error'); }
+    });
+
+    // View a single user's profile (GET /users/:id) in a dialog.
+    $('#u-body').on('click', '.js-view', async function () {
+      const prev = this;
+      const $wrap = $(`<div class="fixed inset-0 z-[110] flex items-center justify-center bg-stone-900/40 p-4">
+        <div role="dialog" aria-modal="true" aria-labelledby="uv-title" class="fade-in w-full max-w-md rounded-2xl bg-white p-6 shadow-xl">
+          <div id="uv-body"><div class="skeleton h-6 w-1/2"></div><div class="skeleton mt-4 h-24 w-full"></div></div>
+          <div class="mt-6 flex justify-end"><button type="button" class="js-close rounded-xl border border-stone-200 px-4 py-2 text-sm font-medium text-stone-700 hover:bg-stone-50">Close</button></div>
+        </div></div>`).appendTo('body');
+      const close = () => { $wrap.remove(); $(document).off('keydown.uv'); prev.focus(); };
+      $wrap.on('click', (e) => { if (e.target === $wrap[0] || $(e.target).closest('.js-close').length) close(); });
+      $(document).on('keydown.uv', (e) => { if (e.key === 'Escape') close(); });
+      $wrap.find('.js-close').trigger('focus');
+      try {
+        const { data: u } = await Api.get('/users/' + $(this).data('id'));
+        const row = (k, v) => `<div class="flex justify-between gap-4 border-b border-stone-100 py-2.5 text-sm"><dt class="text-stone-500">${k}</dt><dd class="text-right font-medium text-stone-800">${v}</dd></div>`;
+        $('#uv-body').html(`
+          <h2 id="uv-title" class="font-display text-xl font-semibold text-stone-900">${UI.esc(u.full_name)}</h2>
+          <p class="text-sm text-stone-500">${UI.esc(u.email)}</p>
+          <dl class="mt-4">
+            ${row('Role', `<span class="capitalize">${UI.esc(u.role)}</span>`)}
+            ${row('Status', u.is_active === false ? '<span class="text-red-700">Disabled</span>' : '<span class="text-sage-700">Active</span>')}
+            ${row('Joined', UI.fmtDateTime(u.created_at))}
+            ${row('Last updated', UI.fmtDateTime(u.updated_at))}
+          </dl>
+          <p class="mt-3 text-xs text-stone-400">Roles can't be changed from the admin panel.</p>`);
+      } catch (err) {
+        $('#uv-body').html(`<p id="uv-title" class="text-sm text-red-700">${UI.esc(err.message)}</p>`);
+      }
     });
 
     let t;
