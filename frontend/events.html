@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Events · CivicEvents+</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/js/theme.js"></script>
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body class="min-h-screen antialiased">
+  <header id="site-header"></header>
+
+  <main id="main" class="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10">
+    <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+      <div>
+        <p class="text-sm font-medium text-sage-700">Community calendar</p>
+        <h1 class="mt-1 font-display text-3xl font-bold tracking-tight text-stone-900">Events</h1>
+        <p id="results-count" class="mt-1 text-sm text-stone-500" aria-live="polite">Loading events…</p>
+      </div>
+      <!-- ROLE GUARD (element-level): removed for non-admins by Auth.applyRoleVisibility() -->
+      <a data-role="admin" href="admin/event-form.html" class="inline-flex items-center justify-center gap-2 rounded-xl bg-sage-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-sage-700">
+        <span aria-hidden="true">+</span> Create event
+      </a>
+    </div>
+
+    <!-- Filters -->
+    <form id="filters" class="mt-6 grid gap-3 rounded-2xl border border-stone-200 bg-white p-3 sm:grid-cols-2 lg:grid-cols-[1fr_auto_auto_auto]" role="search" aria-label="Filter events">
+      <div class="relative">
+        <label for="f-q" class="sr-only">Search by title or description</label>
+        <span class="pointer-events-none absolute inset-y-0 left-3 flex items-center text-stone-400">
+          <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"/></svg>
+        </span>
+        <input id="f-q" type="search" placeholder="Search events" class="w-full rounded-xl border border-stone-200 py-2.5 pl-9 pr-3 text-sm focus:border-sage-400 focus:outline-none focus:ring-2 focus:ring-sage-100">
+      </div>
+      <div>
+        <label for="f-when" class="sr-only">When</label>
+        <select id="f-when" class="w-full rounded-xl border border-stone-200 bg-white px-3 py-2.5 text-sm focus:border-sage-400 focus:outline-none focus:ring-2 focus:ring-sage-100">
+          <option value="upcoming">Upcoming</option>
+          <option value="week">Next 7 days</option>
+          <option value="month">Next 30 days</option>
+          <option value="past">Past events</option>
+          <option value="all">All dates</option>
+        </select>
+      </div>
+      <div>
+        <label for="f-loc" class="sr-only">Location</label>
+        <select id="f-loc" class="w-full rounded-xl border border-stone-200 bg-white px-3 py-2.5 text-sm focus:border-sage-400 focus:outline-none focus:ring-2 focus:ring-sage-100">
+          <option value="">All locations</option>
+        </select>
+      </div>
+      <div>
+        <label for="f-date" class="sr-only">On a specific date</label>
+        <input id="f-date" type="date" class="w-full rounded-xl border border-stone-200 px-3 py-2 text-sm text-stone-700 focus:border-sage-400 focus:outline-none focus:ring-2 focus:ring-sage-100">
+      </div>
+    </form>
+
+    <div id="events-grid" class="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3" aria-busy="true"></div>
+
+    <nav id="pager" class="mt-8 flex items-center justify-center gap-1" aria-label="Pagination"></nav>
+  </main>
+
+  <footer id="site-footer"></footer>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="assets/js/config.js"></script>
+  <script src="assets/js/ui.js"></script>
+  <script src="assets/js/auth.js"></script>
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/shared.js"></script>
+  <script src="assets/js/layout.js"></script>
+  <script src="assets/js/pages/events.js"></script>
+</body>
+</html>

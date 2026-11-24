@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Create account · CivicEvents+</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/js/theme.js"></script>
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body class="min-h-screen antialiased">
+  <main id="main" class="grid min-h-screen lg:grid-cols-2">
+    <section class="relative hidden overflow-hidden bg-sage-800 p-12 text-sage-50 lg:flex lg:flex-col lg:justify-between" aria-hidden="true">
+      <div class="absolute -right-24 -top-24 h-96 w-96 rounded-full bg-sage-700/60"></div>
+      <div class="absolute -bottom-32 -left-16 h-[28rem] w-[28rem] rounded-full bg-sage-900/50"></div>
+      <div class="relative flex items-center gap-2.5">
+        <span class="grid h-9 w-9 place-items-center rounded-xl bg-white/10">
+          <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="12" r="5"/><circle cx="15" cy="12" r="5"/></svg>
+        </span>
+        <span class="font-display text-lg font-bold">CivicEvents+</span>
+      </div>
+      <div class="relative max-w-md">
+        <p class="font-display text-4xl font-semibold leading-tight">Your community, all in one calm place.</p>
+        <p class="mt-4 text-sage-200">Create an account to register for events, leave feedback, and get notified when something new is planned.</p>
+      </div>
+      <p class="relative text-sm text-sage-300">It takes less than a minute.</p>
+    </section>
+
+    <section class="flex items-center justify-center px-5 py-12 sm:px-8">
+      <div class="w-full max-w-sm fade-in">
+        <div class="mb-8 lg:hidden">
+          <span class="font-display text-xl font-bold text-stone-900">CivicEvents<span class="text-sage-600">+</span></span>
+        </div>
+        <h1 class="font-display text-2xl font-bold text-stone-900">Create your account</h1>
+        <p class="mt-1 text-sm text-stone-500">Join and start exploring events near you.</p>
+
+        <div id="form-alert" class="mt-6 hidden rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800" role="alert"></div>
+
+        <form id="signup-form" class="mt-6 space-y-4" novalidate>
+          <div>
+            <label for="full_name" class="mb-1.5 block text-sm font-medium text-stone-700">Full name</label>
+            <input id="full_name" type="text" autocomplete="name" required aria-describedby="full_name-err"
+              class="w-full rounded-xl border border-stone-200 bg-white px-3.5 py-2.5 text-sm focus:border-sage-400 focus:outline-none focus:ring-2 focus:ring-sage-100">
+            <p id="full_name-err" class="mt-1 hidden text-xs text-red-700"></p>
+          </div>
+          <div>
+            <label for="email" class="mb-1.5 block text-sm font-medium text-stone-700">Email</label>
+            <input id="email" type="email" autocomplete="email" required aria-describedby="email-err"
+              class="w-full rounded-xl border border-stone-200 bg-white px-3.5 py-2.5 text-sm focus:border-sage-400 focus:outline-none focus:ring-2 focus:ring-sage-100">
+            <p id="email-err" class="mt-1 hidden text-xs text-red-700"></p>
+          </div>
+          <div>
+            <label for="password" class="mb-1.5 block text-sm font-medium text-stone-700">Password</label>
+            <div class="relative">
+              <input id="password" type="password" autocomplete="new-password" required aria-describedby="pw-strength password-err"
+                class="w-full rounded-xl border border-stone-200 bg-white px-3.5 py-2.5 pr-16 text-sm focus:border-sage-400 focus:outline-none focus:ring-2 focus:ring-sage-100">
+              <button type="button" class="js-toggle-pw absolute inset-y-0 right-2 my-auto h-8 rounded-lg px-2 text-xs font-medium text-stone-500 hover:text-stone-800" data-target="password" aria-label="Show password">Show</button>
+            </div>
+            <!-- Password strength meter: mirrors the backend rule exactly -->
+            <div class="mt-2 flex gap-1" aria-hidden="true">
+              <span class="pw-bar h-1.5 flex-1 rounded-full bg-stone-200 transition"></span>
+              <span class="pw-bar h-1.5 flex-1 rounded-full bg-stone-200 transition"></span>
+              <span class="pw-bar h-1.5 flex-1 rounded-full bg-stone-200 transition"></span>
+              <span class="pw-bar h-1.5 flex-1 rounded-full bg-stone-200 transition"></span>
+            </div>
+            <p id="pw-strength" class="mt-1.5 text-xs text-stone-500" aria-live="polite">Use 8+ characters with a mix of letters, numbers and symbols.</p>
+            <ul class="mt-2 grid grid-cols-2 gap-x-3 gap-y-1 text-xs text-stone-500" id="pw-rules">
+              <li data-rule="len">8+ characters</li>
+              <li data-rule="upper">An uppercase letter</li>
+              <li data-rule="lower">A lowercase letter</li>
+              <li data-rule="num">A number</li>
+              <li data-rule="special">A symbol (e.g. ! @ #)</li>
+            </ul>
+            <p id="password-err" class="mt-1 hidden text-xs text-red-700"></p>
+          </div>
+          <div>
+            <label for="confirm" class="mb-1.5 block text-sm font-medium text-stone-700">Confirm password</label>
+            <input id="confirm" type="password" autocomplete="new-password" required aria-describedby="confirm-err"
+              class="w-full rounded-xl border border-stone-200 bg-white px-3.5 py-2.5 text-sm focus:border-sage-400 focus:outline-none focus:ring-2 focus:ring-sage-100">
+            <p id="confirm-err" class="mt-1 hidden text-xs text-red-700"></p>
+          </div>
+          <button id="signup-btn" type="submit" class="flex w-full items-center justify-center rounded-xl bg-sage-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-sage-700 disabled:opacity-60">Create account</button>
+        </form>
+
+        <p class="mt-6 text-center text-sm text-stone-500">Already have an account? <a href="login.html" class="font-medium text-sage-700 hover:text-sage-800">Sign in</a></p>
+      </div>
+    </section>
+  </main>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="assets/js/config.js"></script>
+  <script src="assets/js/ui.js"></script>
+  <script src="assets/js/auth.js"></script>
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/pages/signup.js"></script>
+</body>
+</html>

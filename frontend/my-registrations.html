@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>My registrations · CivicEvents+</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/js/theme.js"></script>
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body class="min-h-screen antialiased">
+  <header id="site-header"></header>
+
+  <main id="main" class="mx-auto max-w-4xl px-4 py-8 sm:px-6 sm:py-10">
+    <p class="text-sm font-medium text-sage-700">Your plans</p>
+    <h1 class="mt-1 font-display text-3xl font-bold tracking-tight text-stone-900">My registrations</h1>
+    <p class="mt-1 text-sm text-stone-500">Events you've signed up for, and the feedback you've left.</p>
+
+    <div class="mt-6 inline-flex rounded-xl border border-stone-200 bg-white p-1" role="tablist" aria-label="Filter registrations">
+      <button type="button" role="tab" data-tab="upcoming" aria-selected="true" class="js-tab rounded-lg px-4 py-1.5 text-sm font-medium">Upcoming</button>
+      <button type="button" role="tab" data-tab="past" aria-selected="false" class="js-tab rounded-lg px-4 py-1.5 text-sm font-medium">Past</button>
+      <button type="button" role="tab" data-tab="cancelled" aria-selected="false" class="js-tab rounded-lg px-4 py-1.5 text-sm font-medium">Cancelled</button>
+    </div>
+
+    <div id="reg-list" class="mt-5 space-y-3" aria-live="polite" aria-busy="true"></div>
+  </main>
+
+  <footer id="site-footer"></footer>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="assets/js/config.js"></script>
+  <script src="assets/js/ui.js"></script>
+  <script src="assets/js/auth.js"></script>
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/shared.js"></script>
+  <script src="assets/js/layout.js"></script>
+  <script src="assets/js/pages/my-registrations.js"></script>
+</body>
+</html>
