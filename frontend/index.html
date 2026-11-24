@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>CivicEvents+</title>
+  <script src="assets/js/config.js"></script>
+  <script src="assets/js/ui.js"></script>
+  <script src="assets/js/auth.js"></script>
+  <script>
+    // Entry point: send people to the right place.
+    location.replace(Auth.isLoggedIn() ? (Auth.isAdmin() ? 'admin/dashboard.html' : 'events.html') : 'login.html');
+  </script>
+</head>
+<body></body>
+</html>
