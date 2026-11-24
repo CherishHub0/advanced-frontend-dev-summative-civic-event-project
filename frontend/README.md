@@ -159,3 +159,7 @@ frontend/
 - Warm stone neutrals (`#FAFAF9` background, `#1C1917` text) with a single muted **sage** accent (`#436652`) for primary actions.
 - **Plus Jakarta Sans** for headings, **Inter** for body text.
 - Rounded cards, thin borders, soft shadows and gentle fade-ins. Events without images get a calm generated cover instead of a broken image.
+
+## Links
+GitHub: https://github.com/CherishHub0/advanced-frontend-dev-summative-civic-event-project
+Video: https://youtu.be/Sxpt7i0RAig
